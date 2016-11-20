@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title>Hello World</title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1504.6">
+  <style type="text/css">
+    span.s1 {font-kerning: none}
+    #ui12 li {
+        background: #f1f1f1 url(img/logo2.png) no-repeat;;
+        border-bottom: 1px solid #ccc;
+        padding: 0px 20px 0px 50px;overflow:hidden;
+        background-position: 15px 8px;
+    }
+  #ui12 a {
+      font-weight: normal;
+      color: #6b6b6b;
+  }
+  #ui12 .qwer {
+      float: left;
+      width: 60%;
+      padding: 0px 13px;
+      
+  }
+  #ui12 .qwer h1 {font-weight:normal;}
+  #ui12 .qwer2 {
+      width: 20%;
+      text-align: center;
+      float: right;
+      background: #c1e4ec;
+      color: #0889a9;
+      height: 42px;
+      padding-top: 20px;
+      padding: 20px 10px 0px 10px;
+  }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+          <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+          <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; line-height: 28.0px; font: 24.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>Hello</b></span></h1>
+<div class="div1" id="div1">
+    </div>
+<div data-role="page" id="pageone">
+    <div data-role="main" class="">
+        <h2>GPS Tracking</h2>
+        <input type="button" onclick="a();" value="Refresh"></input>
+
+        <ul data-role="listview" data-autodividers="true" id="ui12">
+           <!-- <li><a href="#">Inbox<span class="ui-li-count">25</span></a></li>
+            <li><a href="#">Sent<span class="ui-li-count">432</span></a></li>
+            <li><a href="#">Trash<span class="ui-li-count">7</span></a></li>-->
+        </ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+   /* $(document).ready(function()
+    {*/
+                      a();
+        
+                      /*});*/
+                      
+                      function a()
+                      {
+                          $('#ui12').empty();
+                          //alert("Hello");
+                          var object2 = '{"11":{"dt_server":"2016-11-20 07:51:37","dt_tracker":"2016-11-20 07:51:37","lat":"53.539219","lng":"-2.697265","altitude":"97","angle":"3","speed":"120","params":{"fuel1":"228"},"loc_valid":"1"}}';
+                          var imeinumbers ="";
+                          var fruits = [];
+                          var carname=[];
+                          var cnt=0;
+                          var listr="";
+                          $.ajax({url: "http://www.mylinkpro.in/api/api.php?api=user&ver=1.0&key=4A08F53736F167C&cmd=USER_GET_OBJECTS",type: "POST",dataType: "JSON", success: function(result){
+                                 //var obj1 = $.parseJSON(result);
+                                 $.each(result, function (index, value) {
+                                                   console.log(value);
+                                        //alert(value.imei);
+                                        
+                                        imeinumbers += value.imei + ";";
+                                        
+                                        fruits.push(value.imei);
+                                        carname.push(value.name);
+                                        
+                                        
+                                        });
+                                 $.ajax({url: "http://www.mylinkpro.in/api/api.php?api=user&ver=1.0&key=4A08F53736F167C&cmd=OBJECT_GET_LOCATIONS,"+imeinumbers,type: "POST",dataType: "JSON", success: function(result){
+                                        //var obj1 = $.parseJSON(result);
+                                        $.each(result, function (index, value) {
+                                                               console.log(value);
+                                               //alert(value.speed);
+                                               
+                                               $('#ui12').append('<li data-role="list-divider" role="heading" class=""><a href="#" ><span class="qwer"> <h1>'+fruits[cnt]+' ('+ carname[cnt] +')'+'</h1><small>'+value.speed+'Km/h</small></span><span class="qwer2">'+value.speed+'Km/h</span></a></li>');
+                                               
+                                               cnt++;
+                                               //var imeinumbers = value.imei + ";";
+                                               
+                                               
+                                               });
+                                        // $('#div1').append('</ul></div></div>');
+                                        
+                                        //alert(result);
+                                        //$("#div1").html(result);
+                                        }});
+                                 //alert(result);
+                                 //$("#div1").html(result);
+                                 }});
+                                 
+                                 
+                                 //var obj = $.parseJSON(object2);
+                                 //alert(obj[0].params.fuel1); //true
+                      }
+</script>
+</html>
